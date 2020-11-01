@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# IDE0002: Simplifier l'accès au membre
+dotnet_diagnostic.IDE0002.severity = suggestion
+
+# IDE0017: Simplifier l'initialisation des objets
+dotnet_style_object_initializer = true:none
+
+# Default severity for analyzer diagnostics with category 'Style'
+dotnet_analyzer_diagnostic.category-Style.severity = silent
