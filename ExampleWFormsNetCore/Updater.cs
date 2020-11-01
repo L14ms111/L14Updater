@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Diagnostics;
-using System.Windows.Forms;
 using System.Net.NetworkInformation;
 using System.IO;
 using System.IO.Compression;
-using ExampleWFormsNetCore;
+using System.ComponentModel;
 
 namespace L14Updater
 {
@@ -23,77 +22,110 @@ namespace L14Updater
         public bool cancelUpdate = false;
         public bool errorUpdate = false;
         public string location;
-        public int[] progress { get; set; } = new int[3];
+        public int[] Progress { get; set; } = new int[3];
 
 
-        public void Update(string urlVersion, string urlApp, string versionApp, string nameUpdate)
+        public void Update(string urlVersion, string urlApp, string versionApp, string nameUpdate, bool consoleApp)
         {
-            if(verifyConnection() == true)
+            if (VerifyConnection() == true)
             {
                 WebClient getVersionApp = new WebClient();
                 string s = getVersionApp.DownloadString(urlVersion);
                 if (s != versionApp)
                 {
                     hasNewUpdate = true;
-                    DownloadFile(address: urlApp, location: location + "/" + nameUpdate);
-                } else
+                    DownloadFile(address: urlApp, location: location + "/" + nameUpdate, consoleApp: consoleApp);
+                }
+                else
                 {
                     hasNewUpdate = false;
                 }
-                while(successUpdate)
+                while (successUpdate)
                 {
-                    installUpdate(location + "\\" + nameUpdate);
+                    InstallUpdate(location + "\\" + nameUpdate);
                 }
-            } else
+            }
+            else
             {
-                //pas de connexion
+                errorUpdate = true;
             }
         }
 
-        public void DownloadFile(string address, string location)
+        public void DownloadFile(string address, string location, bool consoleApp)
         {
             WebClient c = new WebClient();
             Uri Uri = new Uri(address);
             successUpdate = false;
-            c.DownloadFileCompleted += (sender, e) =>
+
+            if (consoleApp == false)
             {
-                if(e.Cancelled)
+                c.DownloadFileCompleted += (sender, e) =>
                 {
-                    MessageBox.Show("Le téléchargement de la vidéo a été annulé ...");
-                }  else
+                    if (e.Cancelled)
+                    {
+                        successUpdate = false;
+                    }
+                    else
+                    {
+                        successUpdate = true;
+                    }
+                };
+
+                c.DownloadProgressChanged += (sender, e) =>
                 {
-                    successUpdate = true;
-                }
-            };
-            c.DownloadProgressChanged += (sender, e) =>
+                    Progress = new int[3] { e.ProgressPercentage, Convert.ToInt32(e.BytesReceived), Convert.ToInt32(e.TotalBytesToReceive) };
+                };
+            }
+            else
             {
-                progress = new int [3] { e.ProgressPercentage, Convert.ToInt32(e.BytesReceived), Convert.ToInt32(e.TotalBytesToReceive) };
-            };
+                c.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgress);
+                c.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadCompleted);
+            }
             c.DownloadFileAsync(Uri, location);
         }
 
-        public bool verifyConnection()
+        private void DownloadProgress(object sender, DownloadProgressChangedEventArgs e)
+        {
+            Progress = new int[3] { e.ProgressPercentage, Convert.ToInt32(e.BytesReceived), Convert.ToInt32(e.TotalBytesToReceive) };
+        }
+
+        private void DownloadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                successUpdate = false;
+            }
+            else
+            {
+                successUpdate = true;
+            }
+            successUpdate = true;
+        }
+
+        public bool VerifyConnection()
         {
             Ping p = new Ping();
             try
             {
-                PingReply r = p.Send("216.58.193.78", 5000);
-                if(r.Status == IPStatus.Success)
+                PingReply r = p.Send("216.58.193.78", 5000); // server google
+                if (r.Status == IPStatus.Success)
                 {
-                   return true;
-                } else
-                {
-                   return false;
+                    return true;
                 }
-            } catch { return false;  }
+                else
+                {
+                    return false;
+                }
+            }
+            catch { return false; }
 
         }
 
 
-        public void installUpdate(string l)
+        public void InstallUpdate(string l)
         {
-            string[] f = l.Split(".");
-            switch (f[1])
+            string[] f = l.Split(Convert.ToChar("."));
+            switch (f[2])
             {
 
                 case "exe":
@@ -108,10 +140,10 @@ namespace L14Updater
                     });
                     break;
 
-                case "zip":
+               /* case "zip":
                     ZipFile.ExtractToDirectory(l, AppDomain.CurrentDomain.BaseDirectory);
-                    Process.Start("ExampleWFormsNetCore.exe");
-                    break;
+                    Process.Start(AppDomain.CurrentDomain.FriendlyName + ".exe");
+                    break; */
             }
         }
 

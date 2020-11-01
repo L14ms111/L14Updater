@@ -19,26 +19,31 @@ namespace ExampleWFormsNetCore
             
             Updater u = new Updater();
             u.location = AppDomain.CurrentDomain.BaseDirectory;
-            string nameUpdate = "update.zip";
-            u.Update(urlVersion: "https://localhost/version.txt", urlApp: "http://localhost/a.zip", versionApp: "1.0", nameUpdate: nameUpdate);
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = (200); //a adapter
-            timer.Start();
-
-            timer.Tick += (sender, e) =>
-            {
-                label1.Text = u.progress[0].ToString() + "%";
-                labelZ.Text = bytesToMB(u.progress[1]) + " of " + bytesToMB(u.progress[2]) + " mo";
-                if(u.successUpdate)
-                {
-                    u.installUpdate(u.location + "/" + nameUpdate);
-                }
-            };
+            string nameUpdate = "update.exe";
+            u.Update(urlVersion: "https://localhost/version.txt", urlApp: "http://localhost/ui.exe", versionApp: "1.0", nameUpdate: nameUpdate, consoleApp : false);
             if (u.hasNewUpdate == false)
             {
                 label1.Text = "Aucune mise à jour";
                 labelZ.Text = null;
+            } else
+            {           
+                System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+                timer.Interval = (200); //a adapter
+                timer.Start();
+
+                timer.Tick += (sender, e) =>
+                {
+                    label1.Text = u.Progress[0].ToString() + "%";
+                    labelZ.Text = bytesToMB(u.Progress[1]) + " of " + bytesToMB(u.Progress[2]) + " mo";
+                    if(u.successUpdate)
+                    {
+                        u.InstallUpdate(u.location + "/" + nameUpdate);
+                        Environment.Exit(0);
+                        timer.Stop();
+                    }   
+                };
             }
+
         }
         private string bytesToMB(int bytes)
         {
