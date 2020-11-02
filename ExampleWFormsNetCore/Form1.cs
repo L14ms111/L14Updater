@@ -20,7 +20,7 @@ namespace ExampleWFormsNetCore
             Updater u = new Updater();
             u.location = AppDomain.CurrentDomain.BaseDirectory;
             string nameUpdate = "update.exe";
-            u.Update(urlVersion: "https://localhost/version.txt", urlApp: "http://localhost/ui.exe", versionApp: "1.0", nameUpdate: nameUpdate, consoleApp : false);
+            u.Update(urlVersion: "https://localhost/version.txt", urlApp: "https://localhost/ui.exe", versionApp: "1.1", nameUpdate: nameUpdate, consoleApp : false);
             if (u.hasNewUpdate == false)
             {
                 label1.Text = "Aucune mise à jour";
@@ -45,12 +45,14 @@ namespace ExampleWFormsNetCore
             }
 
         }
+
         private string bytesToMB(int bytes)
         {
             decimal number;
             number = bytes / 1024 / 1024;
             return number.ToString();
         }
+
         //optionnal
         private void button1_Click(object sender, EventArgs e)
         {

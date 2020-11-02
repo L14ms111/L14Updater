@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using System.IO;
 using System.IO.Compression;
 using System.ComponentModel;
+using System.Xml;
 
 namespace L14Updater
 {
@@ -19,7 +20,6 @@ namespace L14Updater
     {
         public bool hasNewUpdate;
         public bool successUpdate;
-        public bool cancelUpdate = false;
         public bool errorUpdate = false;
         public string location;
         public int[] Progress { get; set; } = new int[3];
@@ -40,10 +40,6 @@ namespace L14Updater
                 {
                     hasNewUpdate = false;
                 }
-                while (successUpdate)
-                {
-                    InstallUpdate(location + "\\" + nameUpdate);
-                }
             }
             else
             {
@@ -51,7 +47,7 @@ namespace L14Updater
             }
         }
 
-        public void DownloadFile(string address, string location, bool consoleApp)
+        private void DownloadFile(string address, string location, bool consoleApp)
         {
             WebClient c = new WebClient();
             Uri Uri = new Uri(address);
@@ -125,7 +121,7 @@ namespace L14Updater
         public void InstallUpdate(string l)
         {
             string[] f = l.Split(Convert.ToChar("."));
-            switch (f[1])
+            switch (f[2])
             {
 
                 case "exe":
@@ -139,13 +135,11 @@ namespace L14Updater
                         UseShellExecute = true
                     });
                     break;
-
-                case "zip":
-                    ZipFile.ExtractToDirectory(l, AppDomain.CurrentDomain.BaseDirectory);
-                    Process.Start(AppDomain.CurrentDomain.FriendlyName);
+                case "apk":
+                    Process.Start(l);
                     break;
             }
         }
-
     }
 }
+

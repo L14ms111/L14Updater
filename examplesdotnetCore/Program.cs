@@ -20,7 +20,7 @@ namespace examplesdotnetCore
                     while (!u.successUpdate)
                     {
                         Thread.Sleep(100);
-                        if (u.errorUpdate == true || u.cancelUpdate == true)
+                        if (u.errorUpdate == true || u.errorUpdate == true)
                         {
                             Console.WriteLine("La mise à jour a été interrompu pour une raison inexact");
 
