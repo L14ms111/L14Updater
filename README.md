@@ -22,9 +22,9 @@ You must start to highlight 1 very important variable for the rest of the progra
 u.location = AppDomain.CurrentDomain.BaseDirectory;
 ```
 
-Then you must put in a function, which link contains the current version of the software, the link of the executable or the .zip archive, the version of the application and finally what you want to name the executable or the archive zip.
+Then you must put in a function, which link contains the current version of the software, the link of the executable or the .zip archive, the version of the application ,what you want to name the executable or the archive zip and the last parameter is a bool, to say if it's a console app or not.
 ```
-u.Update(urlVersion: "", urlApp: "", versionApp: "", nameUpdate: "");
+u.Update(urlVersion: "", urlApp: "", versionApp: "", nameUpdate: "", consoleApp : false);
 ```
 
 And from there, you can tell if there is a new update, has the program installer been installed or even if there is a connection or not.
