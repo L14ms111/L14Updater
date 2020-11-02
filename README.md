@@ -1,4 +1,4 @@
-# Amethyste
+# L14Updater
 L14Updater is a library which allows anyone to add an updater in their project.
 # How to use ?
 ## Install library
