@@ -1,5 +1,5 @@
 # L14Updater
-L14Updater is a library which allows anyone to add an updater in their project.
+An asynchronous library, which allows you to check if there is an update or not, install the updater and install the update.
 # How to use ?
 ## Install library
 To install it, you can either copy paste the Updater.cs file or use NuGet.
