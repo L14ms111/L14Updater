@@ -328,6 +328,7 @@ OpenCover/
 # Azure Stream Analytics local run output
 ASALocalRun/
 
+
 # MSBuild Binary and Structured Log
 *.binlog
 
@@ -348,3 +349,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# example
+.examplesdotnetCore/
+.ExampleWFormsNetCore/
