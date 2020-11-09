@@ -91,5 +91,6 @@ Progress                                                                        
 This small library, which allows the developer to save 30 minutes, or even 1 hour. It is easy to use, examples are provided with the project: as 4 examples, one in Windows Form with .NET Framework technology, another in Windows Form also but in .NET Core and finally a console version in .NET Core and finally a version on Xamarin Android.
 ## Comptability
 Windows : .NET Core, .NET Framework 
+
 Android : Xamarin.Android
 
