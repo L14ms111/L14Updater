@@ -2,10 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>L14ms1</Authors>
+    <Product>L14ms1</Product>
+    <Description>a library that allows automatic updates in C#.NET</Description>
+    <RepositoryUrl>https://github.com/L14ms111/L14Updater</RepositoryUrl>
+    <PackageIcon>l14updater.png</PackageIcon>
+    <RepositoryType>Library</RepositoryType>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <AssemblyVersion>0.1.11.0</AssemblyVersion>
+    <FileVersion>0.1.11.0</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>© 2020 - L14ms1 - All rights reserved.</Copyright>
+    <NeutralLanguage>fr</NeutralLanguage>
+    <PackageProjectUrl>https://github.com/L14ms111/L14Updater</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\img\l14updater.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
