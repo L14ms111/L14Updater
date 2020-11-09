@@ -8,7 +8,6 @@ namespace examplesdotnetCore
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(AppDomain.CurrentDomain.FriendlyName);
             Updater u = new Updater();
             u.location = AppDomain.CurrentDomain.BaseDirectory;
             string nameUpdater = "update.exe";

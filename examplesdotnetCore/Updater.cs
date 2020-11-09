@@ -5,7 +5,6 @@ using System.Net.NetworkInformation;
 using System.IO;
 using System.IO.Compression;
 using System.ComponentModel;
-using System.Xml;
 
 namespace L14Updater
 {
@@ -21,6 +20,7 @@ namespace L14Updater
         public bool hasNewUpdate;
         public bool successUpdate;
         public bool errorUpdate = false;
+        public string msgUpdate = null;
         public string location;
         public int[] Progress { get; set; } = new int[3];
 
@@ -29,17 +29,27 @@ namespace L14Updater
         {
             if (VerifyConnection() == true)
             {
-                WebClient getVersionApp = new WebClient();
-                string s = getVersionApp.DownloadString(urlVersion);
-                if (s != versionApp)
+                try
                 {
-                    hasNewUpdate = true;
-                    DownloadFile(address: urlApp, location: location + "/" + nameUpdate, consoleApp: consoleApp);
+                    WebClient getVersionApp = new WebClient();
+                    string s = getVersionApp.DownloadString(urlVersion);
+                    if (s != versionApp)
+                    {
+                        hasNewUpdate = true;
+                        DownloadFile(address: urlApp, location: Path.Combine(location, nameUpdate), consoleApp: consoleApp);
+
+                    }
+                    else
+                    {
+                        hasNewUpdate = false;
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    hasNewUpdate = false;
+                    errorUpdate = true;
+                    msgUpdate = e.ToString();
                 }
+
             }
             else
             {
@@ -50,8 +60,8 @@ namespace L14Updater
         private void DownloadFile(string address, string location, bool consoleApp)
         {
             WebClient c = new WebClient();
+            c.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)");
             Uri Uri = new Uri(address);
-            successUpdate = false;
 
             if (consoleApp == false)
             {
@@ -135,13 +145,11 @@ namespace L14Updater
                         UseShellExecute = true
                     });
                     break;
-                case "apk":
-                    Process.Start(l);
-                    break;
+                    /*case "apk":     
+                        Process.Start(l);
+                        break;*/
             }
         }
-
-
     }
 }
 
