@@ -1,4 +1,4 @@
-# L14Updater
+# L14Updater.NET
 An asynchronous library, which allows you to check if there is an update or not, install the updater and install the update.
 # How to use ?
 ## Install library
